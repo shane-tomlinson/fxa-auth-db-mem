@@ -434,6 +434,26 @@ module.exports = function (log, error) {
       )
   }
 
+  Memory.prototype.updateLockedAt = function (uid, data) {
+    return this.account(uid)
+      .then(
+        function (account) {
+          account.lockedAt = data.lockedAt;
+          return {}
+        }
+      )
+  }
+
+  Memory.prototype.deleteLockedAt = function (uid) {
+    return this.account(uid)
+      .then(
+        function (account) {
+          delete account.lockedAt;
+          return {}
+        }
+      )
+  }
+
   Memory.prototype.updatePasswordForgotToken = function (id, data) {
     var token = passwordForgotTokens[id.toString('hex')]
     if (!token) { return P.reject(error.notFound()) }
